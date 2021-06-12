@@ -5476,11 +5476,11 @@ static void handle_screen_move(enum action sel)
 	switch (sel) {
 	case SEL_NEXT:
 		if (ndents && (cfg.rollover || (cur != ndents - 1)))
-			move_cursor((cur + 1) % ndents, 0);
+			move_cursor(cur == ndents - 1 ? ndents - 1 : cur + 1, 0);
 		break;
 	case SEL_PREV:
 		if (ndents && (cfg.rollover || cur))
-			move_cursor((cur + ndents - 1) % ndents, 0);
+			move_cursor(cur == 0 ? 0 : cur - 1, 0);
 		break;
 	case SEL_PGDN:
 		onscreen = xlines - 4;
