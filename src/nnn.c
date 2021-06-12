@@ -5478,9 +5478,17 @@ static void handle_screen_move(enum action sel)
 		if (ndents && (cfg.rollover || (cur != ndents - 1)))
 			move_cursor(cur == ndents - 1 ? ndents - 1 : cur + 1, 0);
 		break;
+  case SEL_LARGE_NEXT:
+		if (ndents && (cfg.rollover || (cur != ndents - 1)))
+			move_cursor(cur + 10 > ndents ? ndents - 1 : cur + 10, 0);
+		break;
 	case SEL_PREV:
 		if (ndents && (cfg.rollover || cur))
 			move_cursor(cur == 0 ? 0 : cur - 1, 0);
+		break;
+  case SEL_LARGE_PREV:
+		if (ndents && (cfg.rollover || cur))
+			move_cursor(cur - 10 > 0 ? cur - 10 : 0, 0);
 		break;
 	case SEL_PGDN:
 		onscreen = xlines - 4;
@@ -6547,7 +6555,9 @@ nochange:
 			}
 			continue;
 		case SEL_NEXT: // fallthrough
+		case SEL_LARGE_NEXT: // fallthrough
 		case SEL_PREV: // fallthrough
+		case SEL_LARGE_PREV: // fallthrough
 		case SEL_PGDN: // fallthrough
 		case SEL_CTRL_D: // fallthrough
 		case SEL_PGUP: // fallthrough
@@ -7569,20 +7579,20 @@ malloc_1:
 	return tmpdir;
 }
 
-static void check_key_collision(void)
-{
-	int key;
-	bool bitmap[KEY_MAX] = {FALSE};
+/* static void check_key_collision(void) */
+/* { */
+/* 	int key; */
+/* 	bool bitmap[KEY_MAX] = {FALSE}; */
 
-	for (ulong_t i = 0; i < sizeof(bindings) / sizeof(struct key); ++i) {
-		key = bindings[i].sym;
+/* 	for (ulong_t i = 0; i < sizeof(bindings) / sizeof(struct key); ++i) { */
+/* 		key = bindings[i].sym; */
 
-		if (bitmap[key])
-			fprintf(stdout, "key collision! [%s]\n", keyname(key));
-		else
-			bitmap[key] = TRUE;
-	}
-}
+/* 		if (bitmap[key]) */
+/* 			fprintf(stdout, "key collision! [%s]\n", keyname(key)); */
+/* 		else */
+/* 			bitmap[key] = TRUE; */
+/* 	} */
+/* } */
 
 static void usage(void)
 {
@@ -7837,12 +7847,12 @@ int main(int argc, char *argv[])
 		case 'H':
 			cfg.showhidden = 1;
 			break;
-		case 'J':
-			g_state.stayonsel = 1;
-			break;
-		case 'K':
-			check_key_collision();
-			return EXIT_SUCCESS;
+		/* case 'J': */
+		/* 	g_state.stayonsel = 1; */
+		/* 	break; */
+		/* case 'K': */
+			/* check_key_collision(); */
+			/* return EXIT_SUCCESS; */
 		case 'l':
 			if (env_opts_id < 0)
 				scroll_lines = atoi(optarg);

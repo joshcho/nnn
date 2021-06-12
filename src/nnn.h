@@ -48,7 +48,9 @@ enum action {
 	SEL_OPEN,
 	SEL_NAV_IN,
 	SEL_NEXT,
+	SEL_LARGE_NEXT,
 	SEL_PREV,
+	SEL_LARGE_PREV,
 	SEL_PGDN,
 	SEL_PGUP,
 	SEL_CTRL_D,
@@ -137,9 +139,13 @@ static struct key bindings[] = {
 	/* Next */
 	{ 'j',            SEL_NEXT },
 	{ KEY_DOWN,       SEL_NEXT },
+	/* Large Next */
+	{ 'J',            SEL_LARGE_NEXT },
 	/* Previous */
 	{ 'k',            SEL_PREV },
 	{ KEY_UP,         SEL_PREV },
+	/* Large Previous */
+	{ 'K',            SEL_LARGE_PREV },
 	/* Page down */
 	{ KEY_NPAGE,      SEL_PGDN },
 	/* Page up */
@@ -209,7 +215,7 @@ static struct key bindings[] = {
 	/* Redraw window */
 	{ CONTROL('L'),   SEL_REDRAW },
 	/* Select current file path */
-	{ CONTROL('J'),   SEL_SEL },
+	/* { CONTROL('J'),   SEL_SEL }, */
 	{ ' ',            SEL_SEL },
 	/* Toggle select multiple files */
 	{ 'm',            SEL_SELMUL },
